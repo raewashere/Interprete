@@ -28,20 +28,43 @@ public class Scanner {
         palabrasReservadas = new HashMap<>();
         palabrasReservadas.put("y", TipoToken.Y);
         palabrasReservadas.put("clase", TipoToken.CLASE);
-        /*palabrasReservadas.put("ademas", );
-        palabrasReservadas.put("falso", );
-        palabrasReservadas.put("para", );
-        palabrasReservadas.put("fun", ); //definir funciones
-        palabrasReservadas.put("si", );
-        palabrasReservadas.put("nulo", );
-        palabrasReservadas.put("o", );
-        palabrasReservadas.put("imprimir", );
-        palabrasReservadas.put("retornar", );
-        palabrasReservadas.put("super", );
-        palabrasReservadas.put("este", );
-        palabrasReservadas.put("verdadero", );
-        palabrasReservadas.put("var", ); //definir variables
-        palabrasReservadas.put("mientras", );*/
+        palabrasReservadas.put("ademas", TipoToken.ADEMAS);
+        palabrasReservadas.put("falso", TipoToken.FALSO);
+        palabrasReservadas.put("para", TipoToken.PARA);
+        palabrasReservadas.put("fun", TipoToken.FUN); //definir funciones
+        palabrasReservadas.put("si", TipoToken.SI);
+        palabrasReservadas.put("nulo", TipoToken.NULO);
+        palabrasReservadas.put("o", TipoToken.O);
+        palabrasReservadas.put("imprimir", TipoToken.IMPRIMIR);
+        palabrasReservadas.put("retornar", TipoToken.RETORNAR);
+        palabrasReservadas.put("super", TipoToken.SUPER);
+        palabrasReservadas.put("este", TipoToken.ESTE);
+        palabrasReservadas.put("verdadero", TipoToken.VERDADERO);
+        palabrasReservadas.put("var", TipoToken.VAR); //definir variables
+        palabrasReservadas.put("mientras", TipoToken.MIENTRAS);
+        
+        palabrasReservadas.put("(", TipoToken.ABRE_PARENTESIS);
+        palabrasReservadas.put(")", TipoToken.CIERRA_PARENTESIS);
+        palabrasReservadas.put("{", TipoToken.ABRE_LLAVE);
+        palabrasReservadas.put("}", TipoToken.CIERRA_LLAVE);
+        palabrasReservadas.put(",", TipoToken.COMA);
+        palabrasReservadas.put(".", TipoToken.PUNTO);
+        palabrasReservadas.put(";", TipoToken.PUNTO_COMA);
+        palabrasReservadas.put("-", TipoToken.RESTA);
+        
+        palabrasReservadas.put("+", TipoToken.SUMA);
+        palabrasReservadas.put("*", TipoToken.PRODUCTO);
+        palabrasReservadas.put("/", TipoToken.DIVISION);
+        palabrasReservadas.put("!", TipoToken.NEGACION);
+        palabrasReservadas.put("!=", TipoToken.DISTINTO);
+        palabrasReservadas.put("=", TipoToken.ASIGNACION);
+        palabrasReservadas.put("==", TipoToken.IGUALDAD);
+        
+        palabrasReservadas.put("<", TipoToken.MENOR_QUE);
+        palabrasReservadas.put("<=", TipoToken.MENOR_IGUAL_QUE);
+        palabrasReservadas.put(">", TipoToken.MAYOR_QUE);
+        palabrasReservadas.put(">=", TipoToken.MAYOR_IGUAL_QUE);        
+        
     }
 
     Scanner(String source){
