@@ -56,10 +56,10 @@ public class Interprete {
         }
     }
 
-    private static void ejecutar(String source){
+    private static void ejecutar(String source) throws IOException{
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
-
+        //SEPARAR POR TOKENS E IDENTIFICADORES
         for(Token token : tokens){
             System.out.println(token);
         }

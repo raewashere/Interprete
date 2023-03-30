@@ -17,6 +17,9 @@ public enum TipoToken {
 
 
     // Palabras clave:
+    NUMERO,
+    CADENA,
+    IDENTIFICADOR,
     Y, 
     CLASE,
     ADEMAS,
@@ -24,6 +27,7 @@ public enum TipoToken {
     PARA,
     FUN,
     SI,
+    NO,
     NULO,
     O,
     IMPRIMIR,
@@ -37,12 +41,15 @@ public enum TipoToken {
     CIERRA_PARENTESIS,  //)
     ABRE_LLAVE,         //{
     CIERRA_LLAVE,       //}
+    ABRE_CORCHETE,      //[
+    CIERRA_CORCHETE,    //]
     COMA,               //,
     PUNTO,              //.
     PUNTO_COMA,          //;
     RESTA,              //-
     SUMA,               //+
     PRODUCTO,           //*
+    MODULO,             //%
     DIVISION,           // /
     NEGACION,           //!
     DISTINTO,           //!=
