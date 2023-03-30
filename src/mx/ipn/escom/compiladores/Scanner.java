@@ -160,7 +160,7 @@ public class Scanner {
             {
                 if(this.palabrasReservadas.containsKey(String.valueOf(siguiente)))
                 {
-                    System.out.println("LLAVE " + siguiente);
+                    //System.out.println("LLAVE " + siguiente);
                     tokens.add(new Token(this.palabrasReservadas.get(String.valueOf(siguiente)), String.valueOf(siguiente), null, linea));
                 }
             }
