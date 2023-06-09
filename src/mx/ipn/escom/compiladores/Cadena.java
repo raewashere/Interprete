@@ -9,12 +9,12 @@ package mx.ipn.escom.compiladores;
  *
  * @author raypl
  */
-public class Numero extends Token {
+public class Cadena extends Token {
     
-    final double valor;
+    final String valor;
 
-    public Numero(TipoToken tipo, String lexema, Object literal, int linea) {
+    public Cadena(TipoToken tipo, String lexema, Object literal, int linea) {
         super(tipo, lexema, literal, linea);
-        valor = Double.parseDouble(lexema);
+        valor = lexema.replace("\"", "");
     } 
 }

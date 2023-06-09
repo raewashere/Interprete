@@ -45,7 +45,7 @@ public enum TipoToken {
     CIERRA_CORCHETE,    //]
     COMA,               //,
     PUNTO,              //.
-    PUNTO_COMA,          //;
+    FIN_ORDEN,          //;
     RESTA,              //-
     SUMA,               //+
     PRODUCTO,           //*
@@ -59,6 +59,10 @@ public enum TipoToken {
     MENOR_IGUAL_QUE,      //<=
     MAYOR_QUE,          //>
     MAYOR_IGUAL_QUE,    //>=
+    COMENTARIO,    //
+    ABRE_BLOQUE_COMENTARIO, // /*
+    CIERRA_BLOQUE_COMENTARIO,   // */
+    LEE_CADENA,         //"
 
     // Final de cadena
     EOF
