@@ -30,8 +30,6 @@ public class Scanner {
     private static final Map<String, TipoToken> operadores;
     private static final Map<String, TipoToken> comparadores;
     private static final Map<String, TipoToken> agrupadores;
-    private static final Map<String, TipoToken> comentarios;
-    private static final Map<String, TipoToken> cadenas;
     static {
         
         //Declaración de palabras reservadas
@@ -85,14 +83,12 @@ public class Scanner {
         comparadores.put(">=", TipoToken.MAYOR_IGUAL_QUE);
 
         //Declaración de comentarios
-        comentarios = new HashMap<>();
-        comentarios.put("//", TipoToken.COMENTARIO);
-        comentarios.put("/*", TipoToken.ABRE_BLOQUE_COMENTARIO);
-        comentarios.put("*/", TipoToken.CIERRA_BLOQUE_COMENTARIO);
+        //comentarios = new HashMap<>();
+        //comentarios.put("//", TipoToken.COMENTARIO);
         
         //Declaracion de cadenas
-        cadenas = new HashMap<>();
-        cadenas.put("\"", TipoToken.COMENTARIO);
+        //cadenas = new HashMap<>();
+        //cadenas.put("\"", TipoToken.COMENTARIO);
                 
     }
 
@@ -109,8 +105,7 @@ public class Scanner {
         Analizar el texto de entrada para extraer todos los tokens
         y al final agregar el token de fin de archivo
          */
-        int i = 0;
-        
+        int i = 0;        
         for(i = 0; i<this.source.length(); i++){
             
             siguiente = source.charAt(i);
@@ -155,7 +150,7 @@ public class Scanner {
 
                 double numero = v * factorDecimal;
 
-                tokens.add(new Numero(TipoToken.NUMERO, String.valueOf(numero), null, linea));
+                tokens.add(new Numero(TipoToken.NUMERO, String.valueOf(numero), numero, linea));
             }
 
             
@@ -185,10 +180,10 @@ public class Scanner {
                 String cadena = buffer.toString();
                 if(this.palabrasReservadas.containsKey(cadena))
                 {
-                    tokens.add(new Token(this.palabrasReservadas.get(cadena), "", null, linea));
+                    tokens.add(new Token(this.palabrasReservadas.get(cadena), "", cadena, linea));
                 }else
                 {
-                    tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,null,linea));
+                    tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,cadena,linea));
                 }
             } else if (siguiente == '"') { // Verificar si es una cadena
                 StringBuffer buffer = new StringBuffer();
@@ -202,7 +197,7 @@ public class Scanner {
                 if (siguiente == '"') {
                     buffer.append(siguiente);
                     String cadena = buffer.toString();
-                    tokens.add(new Cadena(TipoToken.CADENA, cadena, null, linea));
+                    tokens.add(new Cadena(TipoToken.CADENA, cadena, cadena.substring(1,cadena.length()-1), linea));
                 }
                 
                 /* DESCOMENTAR EN CASO DE QUERER VALIDAR SI CIERRA DESDE EL ANALISIS LEXICO
@@ -211,26 +206,8 @@ public class Scanner {
                 }*/
             }
             
-            /*EVALUACION DE BLOQUE DE COMENTARIOS*/
-            /*if(siguiente== '/' || siguiente== '*' || siguiente == '/')
-            {
-                StringBuffer buffer = new StringBuffer();
-                while(siguiente== '*' || siguiente == '/' && i < this.source.length()){
-                    buffer.append(siguiente);
-                    i++;
-                    if (i < this.source.length())
-                        siguiente = this.source.charAt(i);                    
-                }while(Character.isLetter(siguiente)&& i < this.source.length() && !((siguiente == ' ') || (siguiente == '\t') ||(siguiente == '\n') ));
-                
-                String cadena = buffer.toString();
-                if(this.comentarios.containsKey(cadena))
-                {
-                    tokens.add(new Token(this.comentarios.get(cadena), "", null, linea));
-                }
-            }*/
-            
+            /*COMENTARIO A UNA LINEA*/
             if (siguiente == '/' && i + 1 < this.source.length() && this.source.charAt(i + 1) == '/') {
-
                 StringBuffer buffer = new StringBuffer();
                 // Ignorar el resto de la línea actual
                 while (i < this.source.length() && this.source.charAt(i) != '\n') {
@@ -240,10 +217,24 @@ public class Scanner {
                         siguiente = this.source.charAt(i);
                 }
                 String cadena = buffer.toString();
-                if(this.comentarios.containsKey(cadena))
-                {
-                    tokens.add(new Token(this.comentarios.get(cadena), "", null, linea));
-                }
+                tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2), linea));                
+            }else if (siguiente == '/' && i + 1 < this.source.length() && this.source.charAt(i + 1) == '*') {
+                StringBuffer buffer = new StringBuffer();
+                // Ignorar el resto de la línea actual
+                while (i + 1 < this.source.length() && !(this.source.charAt(i) == '*' && this.source.charAt(i + 1) == '/' )&& this.source.charAt(i) != '\n' ) {
+                    buffer.append(siguiente);
+                    i++;                 
+                    if (i < this.source.length())
+                        siguiente = this.source.charAt(i);
+                }               
+                siguiente = this.source.charAt(i);
+                buffer.append(siguiente);
+                siguiente = this.source.charAt(i+1);
+                buffer.append(siguiente);
+                i = i + 1;
+                String cadena = buffer.toString();
+                tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2, cadena.length()-2), linea));
+                continue;
             }
 
             
@@ -261,7 +252,7 @@ public class Scanner {
                 String cadena = buffer.toString();
                 if(this.comparadores.containsKey(cadena))
                 {
-                    tokens.add(new Token(this.comparadores.get(cadena), "", null, linea));
+                    tokens.add(new Token(this.comparadores.get(cadena), "", cadena, linea));
                 }
             }
             
@@ -270,7 +261,7 @@ public class Scanner {
             {
                 if(this.agrupadores.containsKey(String.valueOf(siguiente)))
                 {
-                    tokens.add(new Token(this.agrupadores.get(String.valueOf(siguiente)), String.valueOf(siguiente), null, linea));
+                    tokens.add(new Token(this.agrupadores.get(String.valueOf(siguiente)), String.valueOf(siguiente), siguiente, linea));
                 }
             }
             
@@ -279,7 +270,7 @@ public class Scanner {
             {
                 if(this.operadores.containsKey(String.valueOf(siguiente)))
                 {
-                    tokens.add(new Token(this.operadores.get(String.valueOf(siguiente)), String.valueOf(siguiente), null, linea));
+                    tokens.add(new Token(this.operadores.get(String.valueOf(siguiente)), String.valueOf(siguiente), siguiente, linea));
                 }                
             }
                                     
@@ -288,12 +279,12 @@ public class Scanner {
             {
                 if(this.palabrasReservadas.containsKey(String.valueOf(siguiente)))
                 {
-                    tokens.add(new Token(this.palabrasReservadas.get(String.valueOf(siguiente)), String.valueOf(siguiente), null, linea));
+                    tokens.add(new Token(this.palabrasReservadas.get(String.valueOf(siguiente)), String.valueOf(siguiente), siguiente, linea));
                 }
             }            
         }   
         
-        tokens.add(new Token(TipoToken.EOF, "", null, linea));
+        tokens.add(new Token(TipoToken.EOF, "", "EOF", linea));
         
         return tokens;
     }
