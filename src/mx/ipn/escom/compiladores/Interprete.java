@@ -40,7 +40,11 @@ public class Interprete {
         ejecutar(new String(bytes, Charset.defaultCharset()));
 
         // Se indica que existe un error
-        if(existenErrores) System.exit(65);
+        if(existenErrores) 
+        {
+            System.out.println("Hay errores");
+            System.exit(65);
+        }
     }
 
     private static void ejecutarPrompt() throws IOException{

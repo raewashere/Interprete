@@ -119,7 +119,7 @@ public class Scanner {
                 if(siguiente == '\n')
                 {
                     linea = linea + 1;
-                    break;
+                    continue;
                 }
             }
             
@@ -221,7 +221,11 @@ public class Scanner {
             }else if (siguiente == '/' && i + 1 < this.source.length() && this.source.charAt(i + 1) == '*') {
                 StringBuffer buffer = new StringBuffer();
                 // Ignorar el resto de la línea actual
-                while (i + 1 < this.source.length() && !(this.source.charAt(i) == '*' && this.source.charAt(i + 1) == '/' )&& this.source.charAt(i) != '\n' ) {
+                while (i + 1 < this.source.length() && !(this.source.charAt(i) == '*' && this.source.charAt(i + 1) == '/' ) ) {
+                    if(siguiente == '\n')
+                    {
+                        linea = linea + 1;
+                    }
                     buffer.append(siguiente);
                     i++;                 
                     if (i < this.source.length())
@@ -234,6 +238,7 @@ public class Scanner {
                 i = i + 1;
                 String cadena = buffer.toString();
                 tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2, cadena.length()-2), linea));
+                linea = linea + 1;
                 continue;
             }
 
