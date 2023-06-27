@@ -17,6 +17,7 @@ public enum TipoToken {
 
 
     // Palabras clave:
+    LOGICO,
     NUMERO,
     CADENA,
     COMENTARIO,
@@ -28,6 +29,7 @@ public enum TipoToken {
     PARA,
     FUN,
     SI,
+    SINO,
     NO,
     NULO,
     O,

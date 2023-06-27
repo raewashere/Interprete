@@ -27,32 +27,34 @@ public class Scanner {
     private char siguiente = ' ';
 
     private static final Map<String, TipoToken> palabrasReservadas;
+    private static final Map<String, TipoToken> estructuraDeControl;
     private static final Map<String, TipoToken> operadores;
     private static final Map<String, TipoToken> comparadores;
     private static final Map<String, TipoToken> agrupadores;
+    private static final Map<String, TipoToken> valoresLogicos;
     static {
         
         //Declaración de palabras reservadas
         palabrasReservadas = new HashMap<>();
-        palabrasReservadas.put("y", TipoToken.Y);
         palabrasReservadas.put("clase", TipoToken.CLASE);
-        palabrasReservadas.put("ademas", TipoToken.ADEMAS);
-        palabrasReservadas.put("falso", TipoToken.FALSO);
-        palabrasReservadas.put("para", TipoToken.PARA);
-        palabrasReservadas.put("fun", TipoToken.FUN); //definir funciones
-        palabrasReservadas.put("si", TipoToken.SI);
+        palabrasReservadas.put("ademas", TipoToken.ADEMAS);       
+        palabrasReservadas.put("fun", TipoToken.FUN); //definir funciones        
         palabrasReservadas.put("nulo", TipoToken.NULO);
-        palabrasReservadas.put("o", TipoToken.O);
         palabrasReservadas.put("imprimir", TipoToken.IMPRIMIR);
         palabrasReservadas.put("retornar", TipoToken.RETORNAR);
         palabrasReservadas.put("super", TipoToken.SUPER);
-        palabrasReservadas.put("este", TipoToken.ESTE);
-        palabrasReservadas.put("verdadero", TipoToken.VERDADERO);
-        palabrasReservadas.put("var", TipoToken.VAR); //definir variables
-        palabrasReservadas.put("mientras", TipoToken.MIENTRAS);
+        palabrasReservadas.put("este", TipoToken.ESTE);      
+        palabrasReservadas.put("var", TipoToken.VAR); //definir variables        
         palabrasReservadas.put(",", TipoToken.COMA);
         palabrasReservadas.put(".", TipoToken.PUNTO);
         palabrasReservadas.put(";", TipoToken.FIN_ORDEN);
+        
+        //Declaracion estructura de control
+        estructuraDeControl = new HashMap<>();
+        estructuraDeControl.put("para", TipoToken.PARA);
+        estructuraDeControl.put("si", TipoToken.SI);
+        estructuraDeControl.put("sino", TipoToken.SINO);
+        estructuraDeControl.put("mientras", TipoToken.MIENTRAS);
         
         //Declaracion de agrupadores
         agrupadores = new HashMap<>();
@@ -72,6 +74,8 @@ public class Scanner {
         operadores.put("%", TipoToken.MODULO);
         operadores.put("!", TipoToken.NEGACION);        
         operadores.put("=", TipoToken.ASIGNACION);
+        operadores.put("|", TipoToken.O);
+        operadores.put("&", TipoToken.Y);
         
         //Declaración de comparadores
         comparadores = new HashMap<>();
@@ -82,9 +86,10 @@ public class Scanner {
         comparadores.put(">", TipoToken.MAYOR_QUE);
         comparadores.put(">=", TipoToken.MAYOR_IGUAL_QUE);
 
-        //Declaración de comentarios
-        //comentarios = new HashMap<>();
-        //comentarios.put("//", TipoToken.COMENTARIO);
+        //Declaración de valoresLogicos
+        valoresLogicos = new HashMap<>();
+        valoresLogicos.put("verdadero", TipoToken.VERDADERO);
+        valoresLogicos.put("falso", TipoToken.FALSO); 
         
         //Declaracion de cadenas
         //cadenas = new HashMap<>();
@@ -183,7 +188,21 @@ public class Scanner {
                     tokens.add(new Token(this.palabrasReservadas.get(cadena), "", cadena, linea));
                 }else
                 {
-                    tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,cadena,linea));
+                    if(cadena.equals("verdadero"))
+                    {
+                        tokens.add(new Logico(TipoToken.VERDADERO,cadena,cadena,linea)); 
+                    }
+                    else
+                    {
+                        if(cadena.equals("falso"))
+                        {
+                            tokens.add(new Logico(TipoToken.FALSO,cadena,cadena,linea)); 
+                        }
+                        else
+                        {
+                            tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,cadena,linea));
+                        }                        
+                    }                    
                 }
             } else if (siguiente == '"') { // Verificar si es una cadena
                 StringBuffer buffer = new StringBuffer();
@@ -271,7 +290,7 @@ public class Scanner {
             }
             
             /*EVALUA OPERADORES MATEMATICOS*/
-            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%' || siguiente == '=' )
+            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%' || siguiente == '='|| siguiente == '&' || siguiente == '|' || siguiente == '!')
             {
                 if(this.operadores.containsKey(String.valueOf(siguiente)))
                 {
