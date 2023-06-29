@@ -65,16 +65,16 @@ public class Token {
             case MODULO:
             case SUMA:
             case RESTA:
-            case ASIGNACION:
-            case IGUALDAD:
-            case DISTINTO:
             case MENOR_QUE:
             case MAYOR_QUE:
             case MENOR_IGUAL_QUE:
             case MAYOR_IGUAL_QUE:
+            case IGUALDAD:
+            case DISTINTO:
             case Y:
-            case O: 
-            case NEGACION:                
+            case O:
+            case NEGACION:
+            case ASIGNACION:               
                 return true;
             default:
                 return false;
@@ -90,23 +90,21 @@ public class Token {
             case PRODUCTO:
             case DIVISION:
             case MODULO:    
-                return 7;
+                return 5;
             case SUMA:
             case RESTA:
-                return 6;
+                return 4;
             case MENOR_QUE:
             case MAYOR_QUE:
             case MENOR_IGUAL_QUE:
             case MAYOR_IGUAL_QUE:
-                return 5;
             case IGUALDAD:
             case DISTINTO:
-                return 4;
-            case Y:
                 return 3;
+            case Y:
             case O:
                 return 2;
-           case NEGACION:
+            case NEGACION:
                 return 1;
             case ASIGNACION:
                 return 0;

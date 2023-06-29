@@ -20,12 +20,31 @@ public class Nodo {
             hijos.add(0, n);
         }
     }
+    
+    public void insertarSiguienteHijo(Nodo n){
+        if(hijos == null){
+            hijos = new ArrayList<>();
+            hijos.add(n);
+        }
+        else{
+            hijos.add(n);
+        }
+    }
 
+    public void insertarHijos(List<Nodo> nodosHijos){
+        if(hijos == null){
+            hijos = new ArrayList<>();
+        }
+
+        for(Nodo n : nodosHijos){
+            hijos.add(n);
+        }
+    }
     public Token getValue(){
         return value;
     }
 
     public List<Nodo> getHijos(){
         return hijos;
-    }
+    }    
 }

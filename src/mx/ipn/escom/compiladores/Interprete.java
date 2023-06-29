@@ -77,8 +77,8 @@ public class Interprete {
         System.out.println("\nPOST");
         for(Token token : postfija){
             System.out.println(token);
-        }
-        
+        }     
+        System.out.println("\nSALIDA");
         GeneradorAST gast = new GeneradorAST(postfija);
         Arbol programa = gast.generarAST();
         programa.recorrer();

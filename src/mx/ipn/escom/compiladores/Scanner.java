@@ -72,7 +72,7 @@ public class Scanner {
         operadores.put("*", TipoToken.PRODUCTO);
         operadores.put("/", TipoToken.DIVISION);
         operadores.put("%", TipoToken.MODULO);
-        operadores.put("!", TipoToken.NEGACION);        
+        operadores.put("~", TipoToken.NEGACION);        
         operadores.put("=", TipoToken.ASIGNACION);
         operadores.put("|", TipoToken.O);
         operadores.put("&", TipoToken.Y);
@@ -200,7 +200,42 @@ public class Scanner {
                         }
                         else
                         {
-                            tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,cadena,linea));
+                            if(cadena.equals("si"))
+                            {
+                                tokens.add(new EstructuraDeControl(TipoToken.SI,cadena,cadena,linea)); 
+                            }
+                            else
+                            {
+                                if(cadena.equals("sino"))
+                                {
+                                    tokens.add(new EstructuraDeControl(TipoToken.SINO,cadena,cadena,linea)); 
+                                }
+                                else
+                                {
+                                    if(cadena.equals("para"))
+                                    {
+                                        tokens.add(new EstructuraDeControl(TipoToken.PARA,cadena,cadena,linea)); 
+                                    }
+                                    else
+                                    {
+                                        if(cadena.equals("mientras"))
+                                        {
+                                            tokens.add(new EstructuraDeControl(TipoToken.SINO,cadena,cadena,linea)); 
+                                        }
+                                        else
+                                        {                                            
+                                            if(cadena.equals("mientras"))
+                                            {
+                                                tokens.add(new EstructuraDeControl(TipoToken.SINO,cadena,cadena,linea)); 
+                                            }
+                                            else
+                                            {                                            
+                                                tokens.add(new Identificador(TipoToken.IDENTIFICADOR,cadena,cadena,linea));
+                                            }
+                                        }
+                                    }
+                                }
+                            }                            
                         }                        
                     }                    
                 }
@@ -236,7 +271,7 @@ public class Scanner {
                         siguiente = this.source.charAt(i);
                 }
                 String cadena = buffer.toString();
-                tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2), linea));                
+                //tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2), linea));                
             }else if (siguiente == '/' && i + 1 < this.source.length() && this.source.charAt(i + 1) == '*') {
                 StringBuffer buffer = new StringBuffer();
                 // Ignorar el resto de la línea actual
@@ -256,29 +291,38 @@ public class Scanner {
                 buffer.append(siguiente);
                 i = i + 1;
                 String cadena = buffer.toString();
-                tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2, cadena.length()-2), linea));
+                //tokens.add(new Cadena(TipoToken.COMENTARIO, cadena, cadena.substring(2, cadena.length()-2), linea));
                 linea = linea + 1;
                 continue;
             }
-
             
-            /*EVALUA COMPARADORES U OPERADORES LÓGICOS*/
-            if(siguiente== '!' || siguiente == '=' || siguiente == '<' || siguiente == '>')
+            /* EVALUA COMPARADORES U OPERADORES LÓGICOS */
+            if (siguiente == '!' || siguiente == '=' || siguiente == '<' || siguiente == '>')
             {
                 StringBuffer buffer = new StringBuffer();
-                while(siguiente== '!' || siguiente == '=' || siguiente == '<' || siguiente == '>' && i < this.source.length()){
+                while ((siguiente == '!' || siguiente == '=' || siguiente == '<' || siguiente == '>') && i < this.source.length()) {
                     buffer.append(siguiente);
                     i++;
                     if (i < this.source.length())
-                        siguiente = this.source.charAt(i);                    
-                }while(Character.isLetter(siguiente)&& i < this.source.length() && !((siguiente == ' ') || (siguiente == '\t') ||(siguiente == '\n') ));
-                
+                        siguiente = this.source.charAt(i);
+                }
+                while (Character.isLetter(siguiente) && i < this.source.length() && !((siguiente == ' ') || (siguiente == '\t') || (siguiente == '\n') || (siguiente == '!') || (siguiente == '=') || (siguiente == '<') || (siguiente == '>'))) {
+                    buffer.append(siguiente);
+                    i++;
+                    if (i < this.source.length())
+                        siguiente = this.source.charAt(i);
+                }
+
                 String cadena = buffer.toString();
-                if(this.comparadores.containsKey(cadena))
-                {
+                if (this.comparadores.containsKey(cadena)) {
                     tokens.add(new Token(this.comparadores.get(cadena), "", cadena, linea));
                 }
-            }
+                else{
+                    if (this.operadores.containsKey(cadena)) {
+                        tokens.add(new Token(this.operadores.get(cadena), "", cadena, linea));
+                    }
+                }
+            }            
             
             /*EVALUA AGRUPADORES*/
             if(siguiente == '(' || siguiente == ')' || siguiente == '[' || siguiente == ']' || siguiente == '{' || siguiente== '}')
@@ -290,7 +334,7 @@ public class Scanner {
             }
             
             /*EVALUA OPERADORES MATEMATICOS*/
-            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%' || siguiente == '='|| siguiente == '&' || siguiente == '|' || siguiente == '!')
+            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%')
             {
                 if(this.operadores.containsKey(String.valueOf(siguiente)))
                 {

@@ -1,5 +1,3 @@
 // Prueba 1:
-var nombre = "Gabriel";
-var apellido = "Rodriguez";
-
-imprimir nombre + " " + apellido;
+var x = 10+1;
+var x = 15+1;

@@ -32,7 +32,9 @@ public class GeneradorPostfija {
 
         for(int i=0; i<infija.size(); i++){
             Token t = infija.get(i);
-
+            if(t.lexema.equals("=")) {
+                System.out.println("OJO AQUI");
+            }
             if(t.tipo == TipoToken.EOF){
                 break;
             }
@@ -69,7 +71,7 @@ public class GeneradorPostfija {
                     postfija.add(new Token(TipoToken.FIN_ORDEN, ";", null));
                 }
             }
-            else if(t.esOperador()){
+            else if(t.esOperador()){                
                 while(!pila.isEmpty() && pila.peek().precedenciaMayorIgual(t)){
                     Token temp = pila.pop();
                     postfija.add(temp);

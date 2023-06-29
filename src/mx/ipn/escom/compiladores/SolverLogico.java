@@ -21,26 +21,40 @@ public class SolverLogico {
                 // Ver la tabla de símbolos
             }
         }
-
-        // Por simplicidad se asume que la lista de hijos del nodo tiene dos elementos
-        Nodo izq = n.getHijos().get(0);
-        Nodo der = n.getHijos().get(1);
-
-        Object resultadoIzquierdo = resolver(izq);
-        Object resultadoDerecho = resolver(der);
-
-        if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
-            switch (n.getValue().tipo){
-                case Y:
-                    return (obtenerValor(resultadoIzquierdo) && obtenerValor(resultadoDerecho));
-                case O:
-                    return (obtenerValor(resultadoIzquierdo) || obtenerValor(resultadoDerecho));
-                case NEGACION:
-                    return !obtenerValor(resultadoIzquierdo);
+        Nodo izq = null;
+        Nodo der = null;
+        Object resultadoIzquierdo = null;
+        Object resultadoDerecho = null;
+        if(n.getHijos().size() == 1)
+        {
+            izq = n.getHijos().get(0);
+            resultadoIzquierdo = resolver(izq);
+            if(resultadoIzquierdo instanceof String){
+                switch (n.getValue().tipo){
+                    case NEGACION:
+                        return !obtenerValor(resultadoIzquierdo);
+                }
             }
-        }
-        else{
-            // Error por diferencia de tipos
+            else{
+                // Error por diferencia de tipos
+            }
+        }else{
+            izq = n.getHijos().get(0);
+            der = n.getHijos().get(1);
+            resultadoIzquierdo = resolver(izq);
+            resultadoDerecho = resolver(der);                 
+            
+            if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
+                switch (n.getValue().tipo){
+                    case Y:
+                        return (obtenerValor(resultadoIzquierdo) && obtenerValor(resultadoDerecho));
+                    case O:
+                        return (obtenerValor(resultadoIzquierdo) || obtenerValor(resultadoDerecho));
+                }
+            }
+            else{
+                // Error por diferencia de tipos
+            }
         }
         return null;
     }

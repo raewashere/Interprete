@@ -41,11 +41,13 @@ public class SolverAritmetico {
                     return ((Double)resultadoIzquierdo / (Double) resultadoDerecho);
                 case MODULO:
                     return ((Double)resultadoIzquierdo % (Double) resultadoDerecho);
+                case ASIGNACION:
+                    return ((Double)resultadoIzquierdo);    
             }
         }
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             if (n.getValue().tipo == TipoToken.SUMA){
-                // Ejecutar la concatenación
+                return ((String)resultadoIzquierdo + (String) resultadoDerecho);
             }
         }
         else{

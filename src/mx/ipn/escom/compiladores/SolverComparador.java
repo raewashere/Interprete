@@ -46,8 +46,16 @@ public class SolverComparador {
             }
         }
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
-            if (n.getValue().tipo == TipoToken.SUMA){
+            if (n.getValue().tipo == TipoToken.IGUALDAD){
                 // Ejecutar la concatenación
+                return (resultadoIzquierdo.equals(resultadoDerecho));
+            }
+            else
+            {
+                if (n.getValue().tipo == TipoToken.DISTINTO){
+                    // Ejecutar la concatenación
+                    return (!resultadoIzquierdo.equals(resultadoDerecho));
+                }
             }
         }
         else{
