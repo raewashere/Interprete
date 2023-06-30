@@ -119,8 +119,7 @@ public class Token {
             case DIVISION:
             case MODULO:
             case SUMA:
-            case RESTA:
-            case ASIGNACION:
+            case RESTA:            
             case IGUALDAD:
             case DISTINTO:
             case MENOR_QUE:
@@ -131,6 +130,7 @@ public class Token {
             case O:            
                 return 2;
             case NEGACION:
+            case ASIGNACION:
                 return 1;
         }
         return 0;
@@ -148,7 +148,7 @@ public class Token {
             case SUPER:
             case ESTE:
             case VAR:
-            case FIN_ORDEN:
+            //case FIN_ORDEN:
                 return true;
             default:
                 return false;

@@ -24,30 +24,35 @@ public class Arbol {
                 case DIVISION:
                 case MODULO:    
                 case SUMA:
-                case RESTA:               
-                    SolverAritmetico solver = new SolverAritmetico(n);
-                    Object resAritmetico = solver.resolver();
-                    System.out.println(resAritmetico);
-                break;
-                //Comparadores
+                case RESTA:     
+                case ASIGNACION:
+                 //Comparadores
                 case MENOR_QUE:
                 case MAYOR_QUE:
                 case MENOR_IGUAL_QUE:
                 case MAYOR_IGUAL_QUE:
                 case IGUALDAD:
                 case DISTINTO:
-                    SolverComparador comparador = new SolverComparador(n);
-                    Object resComparador = comparador.resolver();
-                    System.out.println(resComparador);
-                break;
                 //Operadores lógicos
                 case Y:
                 case O:
-                case NEGACION: 
-                    SolverLogico logico = new SolverLogico(n);
-                    Object resLogico = logico.resolver();
-                    System.out.println(resLogico);
+                case NEGACION:     
+                    Solver solver = new Solver(n);
+                    Object resAritmetico = solver.resolver();
+                    System.out.println(resAritmetico);
                 break;
+                
+                case VAR:
+                    // Crear una variable. Usar tabla de simbolos
+                    break;
+                case SI:
+                    break;
+                case MIENTRAS:
+                    break;
+                case PARA:
+                    break;
+                case FIN_ORDEN:
+                    break;
             }
         }
     }

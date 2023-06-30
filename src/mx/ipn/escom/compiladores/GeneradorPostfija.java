@@ -1,21 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mx.ipn.escom.compiladores;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-
-/**
- *
- * @author Raymundo Torres Díaz
- */
 public class GeneradorPostfija {
-    
+
     private final List<Token> infija;
     private final Stack<Token> pila;
     private final List<Token> postfija;
@@ -32,9 +22,7 @@ public class GeneradorPostfija {
 
         for(int i=0; i<infija.size(); i++){
             Token t = infija.get(i);
-            if(t.lexema.equals("=")) {
-                System.out.println("OJO AQUI");
-            }
+
             if(t.tipo == TipoToken.EOF){
                 break;
             }
@@ -64,14 +52,11 @@ public class GeneradorPostfija {
                 if(pila.peek().tipo == TipoToken.ABRE_PARENTESIS){
                     pila.pop();
                 }
-
-                // Esta sección de aquí es para manejar el ")" que cierra la
-                // condición de la estructura de control
-                if(estructuraDeControl && infija.get(i + 1).tipo == TipoToken.ABRE_LLAVE){
+                if(estructuraDeControl){
                     postfija.add(new Token(TipoToken.FIN_ORDEN, ";", null));
                 }
             }
-            else if(t.esOperador()){                
+            else if(t.esOperador()){
                 while(!pila.isEmpty() && pila.peek().precedenciaMayorIgual(t)){
                     Token temp = pila.pop();
                     postfija.add(temp);
@@ -107,16 +92,7 @@ public class GeneradorPostfija {
                     postfija.add(new Token(TipoToken.FIN_ORDEN, ";", null));
 
                     // Se extrae de la pila de estrucuras de control, el elemento en el tope
-                    Token aux = pilaEstructurasDeControl.pop();
-
-                    /*
-                        Si se da este caso, es necesario extraer el IF de la pila
-                        pilaEstructurasDeControl, y agregar los ";" correspondientes
-                     */
-                    if(aux.tipo == TipoToken.SINO){
-                        pilaEstructurasDeControl.pop();
-                        postfija.add(new Token(TipoToken.FIN_ORDEN, ";", null));
-                    }
+                    pilaEstructurasDeControl.pop();
                     if(pilaEstructurasDeControl.isEmpty()){
                         estructuraDeControl = false;
                     }

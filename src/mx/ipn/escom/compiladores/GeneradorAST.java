@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mx.ipn.escom.compiladores;
 
 import java.util.List;
 import java.util.Stack;
 
-/**
- *
- * @author raypl
- */
-class GeneradorAST {
+public class GeneradorAST {
+
     private final List<Token> postfija;
     private final Stack<Nodo> pila;
 
@@ -21,13 +13,29 @@ class GeneradorAST {
         this.pila = new Stack<>();
     }
 
-    public Arbol generarAST(){
+    public Arbol generarAST() {
+        Stack<Nodo> pilaPadres = new Stack<>();
+        Nodo raiz = new Nodo(null);
+        pilaPadres.push(raiz);
+
+        Nodo padre = raiz;
+
         for(Token t : postfija){
             if(t.tipo == TipoToken.EOF){
-                continue;
+                break;
             }
 
-            if(t.esOperando()){
+            if(t.esPalabraReservada()){
+                Nodo n = new Nodo(t);
+
+                padre = pilaPadres.peek();
+                padre.insertarSiguienteHijo(n);
+
+                pilaPadres.push(n);
+                padre = n;
+
+            }
+            else if(t.esOperando()){
                 Nodo n = new Nodo(t);
                 pila.push(n);
             }
@@ -40,11 +48,48 @@ class GeneradorAST {
                 }
                 pila.push(n);
             }
+            else if(t.tipo == TipoToken.FIN_ORDEN){
+
+                if (pila.isEmpty()){
+                    /*
+                    Si la pila esta vacía es porque t es un punto y coma
+                    que cierra una estructura de control
+                     */
+                    pilaPadres.pop();
+                    padre = pilaPadres.peek();
+                }
+                else{
+                    Nodo n = pila.pop();
+
+                    if(padre.getValue().tipo == TipoToken.VAR){
+                        /*
+                        En el caso del VAR, es necesario eliminar el igual que
+                        pudiera aparecer en la raíz del nodo n.
+                         */
+                        if(n.getValue().tipo == TipoToken.ASIGNACION){
+                            padre.insertarHijos(n.getHijos());
+                        }
+                        else{
+                            padre.insertarSiguienteHijo(n);
+                        }
+                        pilaPadres.pop();
+                        padre = pilaPadres.peek();
+                    }
+                    else if(padre.getValue().tipo == TipoToken.IMPRIMIR){
+                        padre.insertarSiguienteHijo(n);
+                        pilaPadres.pop();
+                        padre = pilaPadres.peek();
+                    }
+                    else {
+                        padre.insertarSiguienteHijo(n);
+                    }
+                }
+            }
         }
 
         // Suponiendo que en la pila sólamente queda un nodo
-        Nodo nodoAux = pila.pop();
-        Arbol programa = new Arbol(nodoAux);
+        // Nodo nodoAux = pila.pop();
+        Arbol programa = new Arbol(raiz);
 
         return programa;
     }

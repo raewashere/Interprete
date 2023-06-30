@@ -72,12 +72,14 @@ public class Interprete {
         //AQUI VA EL PARSER
         
         //Generador de Postfija
+        //PRUEBA  VAR X = 9 - 5 + 2;  BIEN
         GeneradorPostfija gpf = new GeneradorPostfija(tokens);
         List<Token> postfija = gpf.convertir();
         System.out.println("\nPOST");
         for(Token token : postfija){
             System.out.println(token);
         }     
+        
         System.out.println("\nSALIDA");
         GeneradorAST gast = new GeneradorAST(postfija);
         Arbol programa = gast.generarAST();
