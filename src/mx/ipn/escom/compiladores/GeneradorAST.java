@@ -5,8 +5,8 @@ import java.util.Stack;
 
 public class GeneradorAST {
 
-    private final List<Token> postfija;
-    private final Stack<Nodo> pila;
+    private List<Token> postfija;
+    private Stack<Nodo> pila;
 
     public GeneradorAST(List<Token> postfija){
         this.postfija = postfija;
@@ -72,8 +72,8 @@ public class GeneradorAST {
                         else{
                             padre.insertarSiguienteHijo(n);
                         }
-                        pilaPadres.pop();
-                        padre = pilaPadres.peek();
+                        padre = pilaPadres.pop();
+                        //padre = pilaPadres.peek();
                     }
                     else if(padre.getValue().tipo == TipoToken.IMPRIMIR){
                         padre.insertarSiguienteHijo(n);

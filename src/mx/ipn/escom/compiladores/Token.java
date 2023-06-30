@@ -127,10 +127,10 @@ public class Token {
             case MENOR_IGUAL_QUE:
             case MAYOR_IGUAL_QUE:
             case Y:
-            case O:            
-                return 2;
-            case NEGACION:
+            case O:
             case ASIGNACION:
+                return 2;
+            case NEGACION:            
                 return 1;
         }
         return 0;
