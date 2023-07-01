@@ -21,8 +21,7 @@ public class GeneradorPostfija {
         Stack<Token> pilaEstructurasDeControl = new Stack<>();
 
         for(int i=0; i<infija.size(); i++){
-            if(i == 7)
-                System.out.println("AQUI");
+            
             Token t = infija.get(i);
 
             if(t.tipo == TipoToken.EOF){

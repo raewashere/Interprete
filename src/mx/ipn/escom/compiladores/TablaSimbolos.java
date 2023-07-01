@@ -27,6 +27,25 @@ public class TablaSimbolos {
     }
 
     void asignar(String identificador, Object valor){
-        values.put(identificador, valor);
+        if(this.existeIdentificador(identificador))
+        {
+            throw new RuntimeException("Ya está creada la variable '" + identificador + "'.");
+        }
+        else
+        {
+            values.put(identificador, valor);
+        }        
+    }
+    
+    void cambiaValor(String identificador,Object valor)
+    {
+        if(this.existeIdentificador(identificador))
+        {
+            values.replace(identificador, valor) ;
+        }
+        else
+        {
+            throw new RuntimeException("Variable no definida '" + identificador + "'.");
+        }
     }
 }

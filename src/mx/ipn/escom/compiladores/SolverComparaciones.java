@@ -1,10 +1,10 @@
 package mx.ipn.escom.compiladores;
 
-public class Solver {
+public class SolverComparaciones {
 
     private final Nodo nodo;
 
-    public Solver(Nodo nodo) {
+    public SolverComparaciones(Nodo nodo) {
         this.nodo = nodo;
     }
 
@@ -14,7 +14,7 @@ public class Solver {
     private Object resolver(Nodo n){
         // No tiene hijos, es un operando
         if(n.getHijos() == null){
-            if(n.getValue().tipo == TipoToken.NUMERO || n.getValue().tipo == TipoToken.CADENA){
+            if(n.getValue().tipo == TipoToken.NUMERO || n.getValue().tipo == TipoToken.CADENA || n.getValue().tipo == TipoToken.VERDADERO || n.getValue().tipo == TipoToken.FALSO){
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.IDENTIFICADOR){
@@ -31,17 +31,6 @@ public class Solver {
 
         if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
             switch (n.getValue().tipo){
-                //TODOS LOS OPERADORES
-                case SUMA:
-                    return ((Double)resultadoIzquierdo + (Double) resultadoDerecho);
-                case RESTA:
-                    return ((Double)resultadoIzquierdo - (Double) resultadoDerecho);
-                case PRODUCTO:
-                    return ((Double)resultadoIzquierdo * (Double) resultadoDerecho);
-                case DIVISION:
-                    return ((Double)resultadoIzquierdo / (Double) resultadoDerecho);
-                case MODULO:
-                    return ((Double)resultadoIzquierdo % (Double) resultadoDerecho);
                 case MENOR_QUE:
                     return ((Double)resultadoIzquierdo < (Double) resultadoDerecho);
                 case MAYOR_QUE:
@@ -51,22 +40,13 @@ public class Solver {
                 case MAYOR_IGUAL_QUE:
                     return ((Double)resultadoIzquierdo >= (Double) resultadoDerecho);
                 case IGUALDAD:
-                    return ((Double)resultadoIzquierdo).doubleValue() == ((Double)resultadoDerecho).doubleValue();
+                    return ((Double)resultadoIzquierdo).doubleValue() == ((Double)resultadoDerecho);
                 case DISTINTO:
-                    return ((Double)resultadoIzquierdo).doubleValue() != ((Double) resultadoDerecho).doubleValue();
-                case Y:
-                    return (obtenerValor(resultadoIzquierdo) && obtenerValor(resultadoDerecho));
-                case O:
-                    return (obtenerValor(resultadoIzquierdo) || obtenerValor(resultadoDerecho));
-                case NEGACION:
-                    return (!obtenerValor(resultadoIzquierdo));
+                    return ((Double)resultadoIzquierdo).doubleValue() != ((Double) resultadoDerecho);
             }
         }
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             switch (n.getValue().tipo){
-                //CONCATENACION
-                case SUMA:
-                    return ((String)resultadoIzquierdo + (String) resultadoDerecho);
                 //COMPARACION DE CADENAS
                 case IGUALDAD:
                     return (resultadoIzquierdo.equals(resultadoDerecho));

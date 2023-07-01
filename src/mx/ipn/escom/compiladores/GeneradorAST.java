@@ -15,7 +15,7 @@ public class GeneradorAST {
 
     public Arbol generarAST() {
         Stack<Nodo> pilaPadres = new Stack<>();
-        Nodo raiz = new Nodo(null);
+        Nodo raiz = new Nodo(new Token(TipoToken.EOF,""));
         pilaPadres.push(raiz);
 
         Nodo padre = raiz;
@@ -72,8 +72,8 @@ public class GeneradorAST {
                         else{
                             padre.insertarSiguienteHijo(n);
                         }
-                        padre = pilaPadres.pop();
-                        //padre = pilaPadres.peek();
+                        pilaPadres.pop();
+                        padre = pilaPadres.peek();
                     }
                     else if(padre.getValue().tipo == TipoToken.IMPRIMIR){
                         padre.insertarSiguienteHijo(n);

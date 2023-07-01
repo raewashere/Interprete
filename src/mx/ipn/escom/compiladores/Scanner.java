@@ -334,7 +334,7 @@ public class Scanner {
             }
             
             /*EVALUA OPERADORES MATEMATICOS*/
-            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%')
+            if(siguiente == '+' || siguiente == '-' || siguiente == '*' || siguiente == '/' || siguiente == '%' || siguiente == '|' || siguiente == '&')
             {
                 if(this.operadores.containsKey(String.valueOf(siguiente)))
                 {
